@@ -47,22 +47,22 @@ ui <- fluidPage(
       numericInput('min_length', 'Minimum rule length', 2, min = 1, max = 50)
     ),
     mainPanel(
-      
-      # Main panel for displaying plots and tables
-      #
-      # 1- table to display kmeans clustering    2- table to display association rules
-      # 3- pie chart to compare cash and credit usage
-      # 4- scatter plot to plot spending with age
-      # 5- bar graph to compare the total spending of multiple cities 
-      # 6- box plot to display the distribution of total spending
-      textOutput("ctitle"),
-      dataTableOutput("clusteringtable"),
-      textOutput("atitle"),
-      dataTableOutput("arulestable"),
-      plotOutput("piechart"),
-      plotOutput("schatterplot"),
-      plotOutput("bargraph"),
-      plotOutput("boxplot")
+      tabsetPanel(
+        
+        # Main panel for displaying plots and tables
+        #
+        # 1- table to display kmeans clustering    2- table to display association rules
+        # 3- pie chart to compare cash and credit usage
+        # 4- scatter plot to plot spending with age
+        # 5- bar graph to compare the total spending of multiple cities 
+        # 6- box plot to display the distribution of total spending
+        tabPanel("Kmeans clustering",dataTableOutput("clusteringtable")),
+        tabPanel("Association rules", dataTableOutput("arulestable")),
+        tabPanel("Pie chart", plotOutput("piechart")),
+        tabPanel("Schatter plot", plotOutput("schatterplot")),
+        tabPanel("Bar graph", plotOutput("bargraph")),
+        tabPanel("Box Plot",plotOutput("boxplot"))
+      )
     )
   )
   
@@ -105,10 +105,6 @@ server <- function(input, output){
   
   #  <-----k-means clustering between total and age (table)------>
   
-  # sets the title
-  output$ctitle <- renderText({
-    'Kmeans Clustering :'
-  })
   
   # as the outputs will change with the change of user inputs, the whole thing has to be 'Reactive'
   # as the render... functions are reactive, interactivity will not be an issue
@@ -135,10 +131,6 @@ server <- function(input, output){
   
   # Same interactivity as kmeans
   
-  # sets the title
-  output$atitle <- renderText({
-    'Association rules ~ using Apriori algorithm :'
-  })
   
   output$arulestable <- renderDataTable({
     
